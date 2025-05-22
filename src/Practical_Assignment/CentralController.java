@@ -43,5 +43,13 @@ public class CentralController {
     public EventDispatcher getEventDispatcher() {
         return eventDispatcher;
     }
+
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
+    }
+
+    public void setEventDispatcher(EventDispatcher eventDispatcher) {
+        this.eventDispatcher = eventDispatcher;
+    }
 }
 
