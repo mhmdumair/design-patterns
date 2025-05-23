@@ -1,17 +1,20 @@
 package Practical_Assignment;
 
-public class TemperatureSensor implements Sensor{
+public class TemperatureSensor implements Sensor {
+
     private int temp;
     private EventDispatcher eventDispatcher;
 
     @Override
     public void detect() {
-
+        if (eventDispatcher != null) {
+            eventDispatcher.updateTemp(temp);
+        }
     }
 
     @Override
     public String getType() {
-        return null;
+        return "TemperatureSensor";
     }
 
     public int getTemp() {
@@ -20,6 +23,9 @@ public class TemperatureSensor implements Sensor{
 
     public void setTemp(int temp) {
         this.temp = temp;
+        if (eventDispatcher != null) {
+            eventDispatcher.updateTemp(temp);
+        }
     }
 
     public EventDispatcher getEventDispatcher() {

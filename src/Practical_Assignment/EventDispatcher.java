@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventDispatcher {
+
     private List<TimeObserver> timeObservers;
     private List<MotionObserver> motionObservers;
     private List<TemperatureObserver> temperatureObservers;
@@ -15,28 +16,34 @@ public class EventDispatcher {
         this.timeObservers = new ArrayList<>();
     }
 
-    public void register(TemperatureObserver temperatureObserver){
+    public void register(TemperatureObserver temperatureObserver) {
         temperatureObservers.add(temperatureObserver);
     }
 
-    public void register(TimeObserver timeObserver){
+    public void register(TimeObserver timeObserver) {
         timeObservers.add(timeObserver);
     }
 
-    public void register(MotionObserver motionObserver){
-        this.motionObservers.add(motionObserver);
+    public void register(MotionObserver motionObserver) {
+        motionObservers.add(motionObserver);
     }
 
-    public void updateTime(LocalDateTime time){
-
+    public void updateTime(LocalDateTime time) {
+        for (TimeObserver observer : timeObservers) {
+            observer.updateTime(time);
+        }
     }
 
-    public void updateMotion(boolean motion){
-
+    public void updateMotion(String location) {
+        for (MotionObserver observer : motionObservers) {
+            observer.updateMotion(location);
+        }
     }
 
-    public void updateTemp(double temp){
-
+    public void updateTemp(double temp) {
+        for (TemperatureObserver observer : temperatureObservers) {
+            observer.updateTemp(temp);
+        }
     }
 
     public List<TimeObserver> getTimeObservers() {

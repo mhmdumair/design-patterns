@@ -1,10 +1,15 @@
 package Practical_Assignment;
 
-public class Thermostats implements Device,TemperatureObserver{
+public class Thermostats implements Device, TemperatureObserver {
+
     private String type;
     private String location;
     private boolean isOn;
     private double temperature;
+
+    public Thermostats(String location) {
+        this.location = location;
+    }
 
     @Override
     public String getType() {
@@ -18,7 +23,11 @@ public class Thermostats implements Device,TemperatureObserver{
 
     @Override
     public void updateTemp(double temp) {
-
+        if (temp > 30) {
+            On();
+            setTemperature(22);
+            System.out.println("Thermostat ON at " + location + " | Cooling to 22°C");
+        }
     }
 
     public void setType(String type) {

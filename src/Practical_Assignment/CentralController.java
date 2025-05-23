@@ -20,16 +20,51 @@ public class CentralController {
         return instance;
     }
 
-    public void register(Device device){
+    public void register(Device device) {
+        devices.add(device);
 
+        if (eventDispatcher == null) {
+            System.out.println("EventDispatcher is not set.");
+            return;
+        }
+
+        if (device instanceof SmartLight light) {
+            eventDispatcher.register((TimeObserver) light);
+            eventDispatcher.register((MotionObserver) light);
+        }
+
+        if (device instanceof Alarm alarm) {
+            eventDispatcher.register((TimeObserver) alarm);
+            eventDispatcher.register((MotionObserver) alarm);
+            eventDispatcher.register((TemperatureObserver) alarm);
+        }
+
+        if (device instanceof Thermostats thermostat) {
+            eventDispatcher.register((TemperatureObserver) thermostat);
+        }
     }
 
-    public void applyMode(String mode){
-
+    public void setMode(Mode mode) {
+        mode.apply(devices);
     }
 
-    public void setMode(Mode mode){
+    public void applyMode(String mode) {
+        this.mode = mode.toLowerCase();
 
+        switch (this.mode) {
+            case "energysaving":
+                setMode(new EnergySavingMode());
+                break;
+            case "security":
+                setMode(new SecurityMode());
+                break;
+            case "vacation":
+                setMode(new VacationMode());
+                break;
+            default:
+                System.out.println("Invalid mode selected: " + mode);
+                break;
+        }
     }
 
     public String getMode() {
@@ -52,4 +87,3 @@ public class CentralController {
         this.eventDispatcher = eventDispatcher;
     }
 }
-
