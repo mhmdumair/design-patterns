@@ -42,6 +42,10 @@ public class CentralController {
         if (device instanceof Thermostats thermostat) {
             eventDispatcher.register((TemperatureObserver) thermostat);
         }
+
+        if (device instanceof SecurityCamara securityCamara){
+            eventDispatcher.register((MotionObserver) securityCamara);
+        }
     }
 
     public void setMode(Mode mode) {

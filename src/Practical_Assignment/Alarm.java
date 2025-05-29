@@ -27,27 +27,30 @@ public class Alarm implements Device, MotionObserver, TimeObserver, TemperatureO
 
     @Override
     public void updateMotion(String motionLocation) {
-        if (this.location != null && this.location.equalsIgnoreCase(motionLocation)) {
+        if (this.location.equalsIgnoreCase(motionLocation)) {
             on();
         }
     }
 
     @Override
     public void updateTemp(double temp) {
-        if (temp > 35) { // Arbitrary high temperature threshold
+        if (temp > 35) {
             on();
         }
     }
 
     @Override
     public void updateTime(LocalDateTime time) {
+
         for (Event event : events) {
             if (!time.isBefore(event.getStartTime()) && !time.isAfter(event.getEndTime())) {
                 on();
+                System.out.println("Event: " + event.getDescription());
                 break;
             }
         }
     }
+
 
     public void setType(String type) {
         this.type = type;

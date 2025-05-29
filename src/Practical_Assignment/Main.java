@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) {
-        // Create EventDispatcher
+
         EventDispatcher dispatcher = new EventDispatcher();
 
         // Create sensors
@@ -31,7 +31,6 @@ public class Main {
         Thermostats thermostat = (Thermostats) factory.createDevice("thermostat","Living Room");
         thermostat.setType("Thermostats");
 
-        // Set dispatcher to each device
         CentralController controller = CentralController.getInstance();
         controller.setEventDispatcher(dispatcher);
 
@@ -40,7 +39,10 @@ public class Main {
         controller.register(camara);
         controller.register(thermostat);
 
-        // Add dummy events
+        System.out.println("\n--- Simulating Sensor Inputs ---");
+        System.out.println("___________________________________________");
+        System.out.println("Time changes");
+
         Event lightEvent = new Event();
         lightEvent.setStartTime(LocalDateTime.now().minusMinutes(5));
         lightEvent.setEndTime(LocalDateTime.now().plusMinutes(30));
@@ -48,7 +50,7 @@ public class Main {
         light.addEvent(lightEvent);
 
         Event alarmEvent = new Event();
-        alarmEvent.setStartTime(LocalDateTime.now().plusMinutes(1));
+        alarmEvent.setStartTime(LocalDateTime.now().minusMinutes(1));
         alarmEvent.setEndTime(LocalDateTime.now().plusMinutes(10));
         alarmEvent.setDescription("Security Check");
         alarm.addEvent(alarmEvent);
@@ -57,27 +59,21 @@ public class Main {
         camEvent.setStartTime(LocalDateTime.now().minusMinutes(1));
         camEvent.setEndTime(LocalDateTime.now().plusMinutes(20));
         camEvent.setDescription("Record Motion");
-        camara.onRecording(); // Camera must be on to record
+        camara.onRecording();
         camara.addEvent(camEvent);
-
-        // Simulate sensor updates
-        System.out.println("\n--- Simulating Sensor Inputs ---");
-
-        // Clock update
-        clock.setTime(LocalDateTime.now());
         clock.detect();
 
-        // Motion detected
-        motionSensor.setSensed(true); // This calls dispatcher.updateMotion internally
+        System.out.println("___________________________________________");
+        System.out.println("Motion changes");
+        motionSensor.detect();
 
-        // Temperature change
-        temperatureSensor.setTemp(32); // Should trigger thermostat and alarm if too hot
+        System.out.println("___________________________________________");
+        System.out.println("Temperature changes");
+        temperatureSensor.setTemp(32);
 
-        // Apply a mode (optional)
         System.out.println("\n--- Applying Security Mode ---");
         controller.applyMode("security");
 
-        System.out.println("\n--- Finished Simulation ---");
     }
 }
 

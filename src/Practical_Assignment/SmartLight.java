@@ -28,19 +28,21 @@ public class SmartLight implements Device, TimeObserver, MotionObserver {
     @Override
     public void updateTime(LocalDateTime time) {
         boolean inEventTime = false;
+
         for (Event event : events) {
             if (!time.isBefore(event.getStartTime()) && !time.isAfter(event.getEndTime())) {
                 inEventTime = true;
+                on();
+                System.out.println("Event: " + event.getDescription());
                 break;
             }
         }
 
-        if (inEventTime) {
-            on();
-        } else {
+        if (!inEventTime) {
             off();
         }
     }
+
 
     @Override
     public void updateMotion(String detectedLocation) {

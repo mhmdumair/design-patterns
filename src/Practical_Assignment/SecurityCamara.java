@@ -29,8 +29,8 @@ public class SecurityCamara implements Device, TimeObserver, MotionObserver {
 
     @Override
     public void updateMotion(String motionLocation) {
-        if (this.location != null && this.location.equalsIgnoreCase(motionLocation)) {
-            onCamaraLightOn();
+        if (this.location.equalsIgnoreCase(motionLocation)) {
+            onCamaraLight();
         }
     }
 
@@ -88,7 +88,7 @@ public class SecurityCamara implements Device, TimeObserver, MotionObserver {
         return isCamaraLightOn;
     }
 
-    public void onCamaraLightOn() {
+    public void onCamaraLight() {
         isCamaraLightOn = true;
         System.out.println("Camera light ON at " + location);
     }

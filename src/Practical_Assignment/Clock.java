@@ -9,7 +9,7 @@ public class Clock implements Sensor {
 
     @Override
     public void detect() {
-        setTime(LocalDateTime.now()); // this will notify the dispatcher
+        setTime(LocalDateTime.now());
     }
 
     @Override

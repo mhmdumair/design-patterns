@@ -25,8 +25,8 @@ public class Thermostats implements Device, TemperatureObserver {
     public void updateTemp(double temp) {
         if (temp > 30) {
             On();
-            setTemperature(22);
-            System.out.println("Thermostat ON at " + location + " | Cooling to 22°C");
+            setTemperature(25);
+            System.out.println("Thermostat ON at " + location + " | Cooling to 25°C");
         }
     }
 
